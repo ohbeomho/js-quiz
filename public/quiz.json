@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Basic",
+    "description": "JavaScript 기본",
+    "quiz_list": [
+      {
+        "text": "변수를 선언할 때 사용하는 키워드로 알맞은 것은? (2개)",
+        "answer": [1, 4]
+        "option_list": ["set", "let", "create", "define", "var"],
+        "description": "JavaScript에서는 let 또는 var로 변수를 선언할 수 있습니다.\n(하지만 var는 몇몇 이유로 사용하는 것이 권장되지 않습니다.)\n또한 const를 사용하면 값이 변하지 않는 변수를 만들 수 있습니다.\n예시:\n`let a;\na = 10;\nlet b = 20;`\n`var c = 30;\nc = 40;`\n`const d = 50;\nd = 60; // 에러 발생`"
+      },
+      {
+        "text": ""
+      },
+      {
+        "text": "개발자 콘솔에 데이터를 출력하는 함수로 알맞은 것은?",
+        "answer": 3,
+        "option_list": ["print", "write", "console.print", "console.log", "debug.log"],
+        "description": "`console.log([출력할 데이터]);`와 같은 형식으로 사용합니다.\n예시:\n`console.log(\"Hello, World!\");`\n`let a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20`"
+      }
+    ]
+  },
+  {
+    "name": "Intermediate"
+    "description": "JavaScript의 유용한 문법과 함수들"
+  },
+  {
+    "name": "Advanced",
+    "description": "JavaScript의 더 깊은 곳으로"
+  }
+]
