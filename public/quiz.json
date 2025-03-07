@@ -1,20 +1,26 @@
 [
-      {
-        "text": "변수를 선언할 때 사용하는 키워드로 알맞은 것은? (2개)",
-        "answer": [1, 4]
-        "option_list": ["set", "let", "create", "define", "var"],
-        "description": "JavaScript에서는 let 또는 var로 변수를 선언할 수 있습니다.\n(하지만 var는 몇몇 이유로 사용하는 것이 권장되지 않습니다.)\n또한 const를 사용하면 값이 변하지 않는 변수를 만들 수 있습니다.\n### 예시\n```let a;\na = 10;\nlet b = 20;```\n```var c = 30;\nc = 40;```\n```const d = 50;\nd = 60; // 에러 발생```"
-      },
-      {
-        "text": "JavaScript의 기본 타입으로 알맞지 않은 것은?",
-        "answer": [2],
-        "option_list": ["number", "string", "object", "boolean", "undefined"],
-        "description": "JavaScript의 기본 타입은 null, undefined, boolean, string, number, bigint, symbol으로 7가지 입니다.\n기본 타입이 아닌 것으로는 object가 있습니다."
-      },
-      {
-        "text": "콘솔에 데이터를 출력하는 함수로 알맞은 것은?",
-        "answer": [3],
-        "option_list": ["print", "write", "console.print", "console.log", "debug.log"],
-        "description": "`console.log([출력할 데이터]);`와 같은 형식으로 사용합니다.\n### 예시:\n```console.log(\"Hello, World!\");```\n```let a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20```"
-      }
+  {
+    "text": "변수를 선언할 때 사용하는 키워드로 알맞은 것은? (2개)",
+    "answer": [1, 4],
+    "option_list": ["set", "let", "create", "define", "var"],
+    "description": "JavaScript에서는 let 또는 var로 변수를 선언할 수 있습니다.  \n(하지만 var는 몇몇 이유로 사용하는 것이 권장되지 않습니다.)  \n또한 const를 사용하면 값이 변하지 않는 변수를 만들 수 있습니다.  \n### 예시  \n```\nlet a;  \na = 10;  \nlet b = 20;\n```  \n```\nvar c = 30;\nc = 40;\n```  \n```\nconst d = 50;\nd = 60; // 에러 발생\n```"
+  },
+  {
+    "text": "JavaScript의 기본 타입으로 알맞지 않은 것은?",
+    "answer": [2],
+    "option_list": ["number", "string", "object", "boolean", "undefined"],
+    "description": "JavaScript의 기본 타입은 null, undefined, boolean, string, number, bigint, symbol으로 7가지 입니다.  \n기본 타입이 아닌 것으로는 object가 있습니다."
+  },
+  {
+    "text": "콘솔에 데이터를 출력하는 함수로 알맞은 것은?",
+    "answer": [3],
+    "option_list": [
+      "print",
+      "write",
+      "console.print",
+      "console.log",
+      "debug.log"
+    ],
+    "description": "`console.log([출력할 데이터]);와 같은 형식으로 사용합니다.  \n### 예시:  \n```\nconsole.log(\"Hello, World!\");\n```  \n```\nlet a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20\n```"
+  }
 ]
