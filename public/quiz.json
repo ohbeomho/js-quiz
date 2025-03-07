@@ -12,7 +12,7 @@
         "description": "JavaScript의 기본 타입은 null, undefined, boolean, string, number, bigint, symbol으로 7가지 입니다.\n기본 타입이 아닌 것으로는 object가 있습니다."
       },
       {
-        "text": "개발자 콘솔에 데이터를 출력하는 함수로 알맞은 것은?",
+        "text": "콘솔에 데이터를 출력하는 함수로 알맞은 것은?",
         "answer": [3],
         "option_list": ["print", "write", "console.print", "console.log", "debug.log"],
         "description": "`console.log([출력할 데이터]);`와 같은 형식으로 사용합니다.\n### 예시:\n```console.log(\"Hello, World!\");```\n```let a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20```"
