@@ -9,3 +9,11 @@ body {
   align-items: center;
   text-align: center;
 }
+
+.fa-circle-check {
+  color: lightgreen;
+}
+
+.fa-circle-xmark {
+  color: red;
+}

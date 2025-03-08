@@ -3,6 +3,11 @@ import quizList from "./assets/quiz.json";
 import Markdown from "react-markdown";
 import styled, { keyframes } from "styled-components";
 import memoize from "fast-memoize";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleCheck,
+  faCircleXmark
+} from "@fortawesome/free-solid-svg-icons";
 
 const Shrink = keyframes`
 0% {
@@ -28,13 +33,13 @@ const Quiz = styled.div`
   position: relative;
 `;
 
-const OptionList = styled.ul`
+const List = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0.5rem;
 `;
 
-const Option = styled.button.attrs<{
+const QuizOption = styled.button.attrs<{
   $selected?: boolean;
   $correct?: boolean;
 }>({})`
@@ -48,7 +53,7 @@ const Option = styled.button.attrs<{
           : "red"};
 `;
 
-export default function () {
+export default function() {
   const [idx, setIdx] = useState(-1);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<boolean[]>([]);
@@ -104,11 +109,20 @@ export default function () {
       ) : idx < quizList.length ? (
         <Quiz>
           {solving && <ProgressBar />}
-          <h2>{quizList[idx].text}</h2>
-          <OptionList>
+
+          <h2>
+            {!solving && (
+              <FontAwesomeIcon
+                icon={result[result.length - 1] ? faCircleCheck : faCircleXmark}
+              />
+            )}
+            &nbsp;
+            {quizList[idx].text}
+          </h2>
+          <List>
             {quizList[idx].option_list.map((option, i) => (
               <li key={i}>
-                <Option
+                <QuizOption
                   onClick={toggleAnswer(i)}
                   $selected={solving && answers.includes(i)}
                   $correct={
@@ -119,25 +133,25 @@ export default function () {
                   disabled={!solving}
                 >
                   {option}
-                </Option>
+                </QuizOption>
               </li>
             ))}
-          </OptionList>
+          </List>
           {!solving && (
             <>
               <h3>정답</h3>
-              <OptionList>
+              <List>
                 {quizList[idx].option_list.map((option, i) => (
                   <li key={i}>
-                    <Option
+                    <QuizOption
                       $correct={quizList[idx].answer.includes(i)}
                       style={{ pointerEvents: "none" }}
                     >
                       {option}
-                    </Option>
+                    </QuizOption>
                   </li>
                 ))}
-              </OptionList>
+              </List>
               <h3>해설</h3>
               <Markdown>{quizList[idx].description}</Markdown>
               <br />
@@ -158,9 +172,33 @@ export default function () {
       ) : (
         <div>
           <h1>Results</h1>
+          <List>
+            {result.map((isCorrect, i) => (
+              <li key={i}>
+                <FontAwesomeIcon
+                  icon={isCorrect ? faCircleCheck : faCircleXmark}
+                />
+                &nbsp;
+                <span style={{ color: isCorrect ? "ligntgreen" : "red" }}>
+                  {i + 1}번 문제
+                </span>
+                &nbsp;
+                {!isCorrect && (
+                  <>
+                    정답:&nbsp;
+                    {quizList[i].answer
+                      .map(
+                        (answer) =>
+                          `${answer + 1}번: ${quizList[i].option_list[answer]}`
+                      )
+                      .join(", ")}
+                  </>
+                )}
+              </li>
+            ))}
+          </List>
         </div>
       )}
     </>
-    // TODO: Show results
   );
 }
