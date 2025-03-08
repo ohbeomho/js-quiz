@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import quizList from "../public/quiz.json";
+import quizList from "./assets/quiz.json";
 import Markdown from "react-markdown";
 import styled, { keyframes } from "styled-components";
 import memoize from "fast-memoize";
@@ -34,56 +34,58 @@ const OptionList = styled.ul`
   margin: 0.5rem;
 `;
 
-const Option = styled.button.attrs<{ $selected?: boolean; $correct?: boolean }>(
-  { $selected: false, $correct: false }
-)``;
+const Option = styled.button.attrs<{
+  $selected?: boolean;
+  $correct?: boolean;
+}>({})`
+  background-color: ${({ $selected, $correct }) =>
+    $selected
+      ? "skyblue"
+      : $correct === undefined
+        ? "white"
+        : $correct
+          ? "lightgreen"
+          : "red"};
+`;
 
-export default function() {
+export default function () {
   const [idx, setIdx] = useState(-1);
-  const [answer, setAnswer] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [result, setResult] = useState<boolean[]>([]);
   const [solving, setSolving] = useState(false);
   const timerRef = useRef<number>(null);
 
   const nextQuiz = useCallback(() => {
     setIdx((prevIdx) => prevIdx + 1);
     setSolving(() => true);
+    setAnswers(() => []);
     // 20 second time limit
     timerRef.current = setTimeout(() => setSolving(() => false), 1000 * 20);
   }, [timerRef.current]);
   const answerQuiz = useCallback(() => {
-    if (answer.length !== quizList[idx].answer.length) return;
+    if (answers.length !== quizList[idx].answer.length) return;
 
     clearTimeout(timerRef.current!);
     setSolving(() => false);
 
-    answer.sort((a, b) => a - b);
-    let correct = true;
-    for (let i = 0; i < answer.length; i++) {
-      if (answer[i] !== quizList[idx].answer[i]) {
-        correct = false;
-        break;
-      }
-    }
+    const correct = answers
+      .sort((a, b) => a - b)
+      .every((answer, i) => answer === quizList[idx].answer[i]);
 
-    if (correct) {
-      // Correct answer
-    } else {
-      // Wrong answer
-    }
-
-    setAnswer(() => []);
-  }, [idx, answer, timerRef.current]);
+    setResult((result) => [...result, correct]);
+  }, [idx, answers, timerRef.current]);
   const toggleAnswer = useCallback(
     memoize((optionIdx: number) => () => {
-      setAnswer((prevAnswer) => {
-        prevAnswer.includes(optionIdx)
-          ? prevAnswer.splice(prevAnswer.indexOf(optionIdx), 1)
-          : prevAnswer.push(optionIdx);
+      setAnswers((prevAnswers) => {
+        const newAnswers = prevAnswers.includes(optionIdx)
+          ? prevAnswers.filter((answer) => answer !== optionIdx)
+          : [...prevAnswers, optionIdx];
 
-        return [...prevAnswer];
+        if (newAnswers.length > quizList[idx].answer.length) return prevAnswers;
+        return newAnswers;
       });
     }),
-    []
+    [idx]
   );
 
   return (
@@ -108,8 +110,13 @@ export default function() {
               <li key={i}>
                 <Option
                   onClick={toggleAnswer(i)}
-                  $selected={answer.includes(i)}
-                  $correct={!solving && quizList[idx].answer.includes(i)}
+                  $selected={solving && answers.includes(i)}
+                  $correct={
+                    solving || !answers.includes(i)
+                      ? undefined
+                      : quizList[idx].answer.includes(i)
+                  }
+                  disabled={!solving}
                 >
                   {option}
                 </Option>
@@ -118,6 +125,20 @@ export default function() {
           </OptionList>
           {!solving && (
             <>
+              <h3>정답</h3>
+              <OptionList>
+                {quizList[idx].option_list.map((option, i) => (
+                  <li key={i}>
+                    <Option
+                      $correct={quizList[idx].answer.includes(i)}
+                      style={{ pointerEvents: "none" }}
+                    >
+                      {option}
+                    </Option>
+                  </li>
+                ))}
+              </OptionList>
+              <h3>해설</h3>
               <Markdown>{quizList[idx].description}</Markdown>
               <br />
               <button onClick={nextQuiz}>
@@ -128,7 +149,7 @@ export default function() {
           {solving && (
             <button
               onClick={answerQuiz}
-              disabled={answer.length !== quizList[idx].answer.length}
+              disabled={answers.length !== quizList[idx].answer.length}
             >
               확인
             </button>
