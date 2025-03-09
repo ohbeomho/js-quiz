@@ -21,6 +21,6 @@
       "console.log",
       "debug.log"
     ],
-    "description": "`console.log([출력할 데이터]);와 같은 형식으로 사용합니다.  \n### 예시:  \n```\nconsole.log(\"Hello, World!\");\n```  \n```\nlet a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20\n```"
+    "description": "`console.log([출력할 데이터]);`와 같은 형식으로 사용합니다.  \n### 예시:  \n```\nconsole.log(\"Hello, World!\");\n```  \n```\nlet a = 10;\nlet b = 20;\nconsole.log(a, b); // 출력: 10 20\n```"
   }
 ]

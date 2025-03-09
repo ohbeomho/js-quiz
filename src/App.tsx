@@ -53,7 +53,7 @@ const QuizOption = styled.button.attrs<{
           : "red"};
 `;
 
-export default function() {
+export default function () {
   const [idx, setIdx] = useState(-1);
   const [answers, setAnswers] = useState<number[]>([]);
   const [result, setResult] = useState<boolean[]>([]);
@@ -79,6 +79,10 @@ export default function() {
 
     setResult((result) => [...result, correct]);
   }, [idx, answers, timerRef.current]);
+  const reset = useCallback(() => {
+    setIdx(() => -1);
+    setResult(() => []);
+  }, []);
   const toggleAnswer = useCallback(
     memoize((optionIdx: number) => () => {
       setAnswers((prevAnswers) => {
@@ -141,20 +145,18 @@ export default function() {
             <>
               <h3>정답</h3>
               <List>
-                {quizList[idx].option_list.map((option, i) => (
+                {quizList[idx].answer.map((answer, i) => (
                   <li key={i}>
-                    <QuizOption
-                      $correct={quizList[idx].answer.includes(i)}
-                      style={{ pointerEvents: "none" }}
-                    >
-                      {option}
+                    <QuizOption $correct style={{ pointerEvents: "none" }}>
+                      {quizList[idx].option_list[answer]}
                     </QuizOption>
                   </li>
                 ))}
               </List>
-              <h3>해설</h3>
-              <Markdown>{quizList[idx].description}</Markdown>
-              <br />
+              <details>
+                <summary>해설</summary>
+                <Markdown>{quizList[idx].description}</Markdown>
+              </details>
               <button onClick={nextQuiz}>
                 {idx === quizList.length - 1 ? "결과 보기" : "다음 문제"}
               </button>
@@ -174,7 +176,7 @@ export default function() {
           <h1>Results</h1>
           <List>
             {result.map((isCorrect, i) => (
-              <li key={i}>
+              <li key={i} style={{ margin: "1rem 0" }}>
                 <FontAwesomeIcon
                   icon={isCorrect ? faCircleCheck : faCircleXmark}
                 />
@@ -182,21 +184,21 @@ export default function() {
                 <span style={{ color: isCorrect ? "ligntgreen" : "red" }}>
                   {i + 1}번 문제
                 </span>
-                &nbsp;
                 {!isCorrect && (
-                  <>
+                  <div>
                     정답:&nbsp;
                     {quizList[i].answer
                       .map(
                         (answer) =>
-                          `${answer + 1}번: ${quizList[i].option_list[answer]}`
+                          `${answer + 1}번(${quizList[i].option_list[answer]})`
                       )
                       .join(", ")}
-                  </>
+                  </div>
                 )}
               </li>
             ))}
           </List>
+          <button onClick={reset}>다시 풀기</button>
         </div>
       )}
     </>

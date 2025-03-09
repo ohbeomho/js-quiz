@@ -17,3 +17,7 @@ body {
 .fa-circle-xmark {
   color: red;
 }
+
+details {
+  margin: 1rem 0;
+}
